@@ -6,6 +6,9 @@ from matplotlib.colors import LinearSegmentedColormap
 
 # 1. Load the history data
 history_data = mr.MesaData('LOGS/history.data')
+ages_gyr = history_data.star_age / 1e9  # Scales from years to Gyr
+radii_solar = history_data.R            # Radius in solar units (R_sun)
+# 3. Define your target age in Gyr
 
 # 2. Extract arrays and downsample for smooth playback
 step = 10 
@@ -55,11 +58,9 @@ def update(frame):
     
     # Optional: Slightly scale marker size to visualize the actual physical expansion of the giant phase
     # Comment this out if you prefer the point of light to remain exactly a constant size
-    if current_age_gyr > 2.5:
-        star.set_markersize(20 + (current_age_gyr - 2.5) * 12)
-    else:
-        star.set_markersize(20)
-        
+    target_age_gyr = current_age_gyr 
+    interpolated_radius = np.interp(target_age_gyr, ages_gyr, radii_solar)
+    star.set_markersize(20+interpolated_radius)  
     # Update the timestamp readout
     time_text.set_text(f"Age: {current_age_gyr:.3f} Gyr")
     
