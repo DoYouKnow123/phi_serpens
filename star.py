@@ -60,7 +60,7 @@ def update(frame):
     # Comment this out if you prefer the point of light to remain exactly a constant size
     target_age_gyr = current_age_gyr 
     interpolated_radius = np.interp(target_age_gyr, ages_gyr, radii_solar)
-    star.set_markersize(20+interpolated_radius)  
+    star.set_markersize(interpolated_radius)  
     # Update the timestamp readout
     time_text.set_text(f"Age: {current_age_gyr:.3f} Gyr")
     
