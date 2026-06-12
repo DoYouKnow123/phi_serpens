@@ -1,0 +1,41 @@
+! --- STAR JOB CONTROLS ---
+&star_job
+
+    ! Start from a pre-computed Zero Age Main Sequence (ZAMS) model
+    create_pre_main_sequence_model = .true.
+
+    ! Display profile information in the terminal during the run
+
+    ! Direct MESA where to save your history and profile output logs
+
+/ ! end of star_job namelist
+
+! --- EVOLUTION CONTROLS ---
+&controls
+
+    ! 1. Initial Stellar Parameters for Phi Serpens
+    initial_mass = 1.25          ! Mass in solar units (M_sun)
+    initial_z = 0.014            ! Near-solar metallicity
+
+    ! 2. Mixing and Convection (Standard Mixing Length Theory)
+    mixing_length_alpha = 2.0    ! Efficiency of convective energy transport
+
+    ! 3. Winds / Mass Loss (important as the star climbs the giant branch)
+    cool_wind_RGB_scheme = 'Reimers'
+    Reimers_scaling_factor = 0.5
+    ! 4. When to Stop the Simulation
+    ! Phi Serpens is an evolved giant star with an effective temp ~4493 K.
+    ! This tells MESA to stop when it cools down to its giant-phase temperature.
+    log_Teff_lower_limit = 3.65253
+
+    
+    ! Alternative stopping condition fallback (e.g., maximum age of universe)
+    max_age = 1.4d10             
+
+    ! 5. Output frequency
+    history_interval = 10  ! Write to history.data every 10 steps
+    profile_interval = 50         ! Write a structural profile snapshot every 50 steps
+
+/ ! end of controls namelist
+&kap
+    Zbase=0.014
